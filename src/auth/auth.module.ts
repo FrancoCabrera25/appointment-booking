@@ -35,6 +35,6 @@ import { User, UserSchema } from './entities/user.entity';
       },
     }),
   ],
-  exports: [JwtStrategy, PassportModule, JwtModule],
+  exports: [JwtStrategy, PassportModule, JwtModule, MongooseModule],
 })
 export class AuthModule {}

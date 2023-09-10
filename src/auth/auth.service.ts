@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { JwtPayload } from './interface/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from './entities/login-user.dto';
@@ -29,16 +29,20 @@ export class AuthService {
         password: passwwordHash,
         role,
       });
-      // const userPlainObject = userCreate.toObject();
+
       return {
         user: {
           fullName: userCreate.fullName,
           email: userCreate.email,
           role: userCreate.role,
         },
-        token: this.getJwtToken({ id: userCreate.id, role: userCreate.role }),
+        token: this.getJwtToken({
+          id: userCreate._id.toString(),
+          role: userCreate.role,
+        }),
       };
     } catch (error) {
+      console.log('error', error);
       this.handleDbErrors(error);
     }
   }
@@ -59,9 +63,11 @@ export class AuthService {
       throw new UnauthorizedException('Credentials are not valid');
     }
     delete user.password;
+
+    console.log('user', user);
     return {
       ...user,
-      token: this.getJwtToken({ id: user.id, role: user.role }),
+      token: this.getJwtToken({ id: user._id.toString(), role: user.role }),
     };
   }
 
