@@ -22,6 +22,17 @@ export class VehicleService {
       throw new BadRequestException('No se pudo crear el vehiculo');
     }
   }
+
+  async findByPatentAndUserId(
+    patent: string,
+    userId: string,
+  ): Promise<Vehicle> {
+    return await this.vehicleModel.findOne({ patent, userId });
+  }
+
+  async findAllVehicleByUserId(userId: string): Promise<Vehicle[]> {
+    return await this.vehicleModel.find({ userId });
+  }
   // findAll() {
   //   return `This action returns all vehicle`;
   // }

@@ -19,7 +19,7 @@ export class VehicleController {
   constructor(private readonly vehicleService: VehicleService) {}
 
   @Post()
-  @Auth(ValidRoles.ADMIN)
+  @Auth(ValidRoles.CLIENT)
   create(@Body() createVehicleDto: CreateVehicleDto, @GetUser() user: User) {
     //console.log('user', user);
     return this.vehicleService.create(createVehicleDto, user.id);

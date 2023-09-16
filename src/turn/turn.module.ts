@@ -4,6 +4,7 @@ import { TurnController } from './turn.controller';
 import { AuthModule } from '../auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Turn, Turnschema } from './entities/turn.entity';
+import { VehicleModule } from '../vehicle/vehicle.module';
 
 @Module({
   controllers: [TurnController],
@@ -16,7 +17,8 @@ import { Turn, Turnschema } from './entities/turn.entity';
       },
     ]),
     AuthModule,
+    VehicleModule,
   ],
-  exports: [MongooseModule],
+  exports: [MongooseModule, TurnService],
 })
 export class TurnModule {}

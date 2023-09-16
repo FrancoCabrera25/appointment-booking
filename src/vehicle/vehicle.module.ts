@@ -17,6 +17,6 @@ import { AuthModule } from '../auth/auth.module';
     ]),
     AuthModule,
   ],
-  exports: [MongooseModule],
+  exports: [MongooseModule, VehicleService],
 })
 export class VehicleModule {}

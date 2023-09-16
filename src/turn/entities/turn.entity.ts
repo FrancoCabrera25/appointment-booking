@@ -14,7 +14,7 @@ export class Turn extends Document {
   @Prop({
     required: true,
     default: 'PENDING',
-    enum: ['PENDING', 'CANCELED', 'CONFIRM', 'RESERVED'],
+    enum: ['PENDING', 'CANCELED', 'CONFIRM', 'RESERVED', 'FINISHED'],
   })
   status: string;
 

@@ -11,7 +11,9 @@ describe('InspectionResultController', () => {
       providers: [InspectionResultService],
     }).compile();
 
-    controller = module.get<InspectionResultController>(InspectionResultController);
+    controller = module.get<InspectionResultController>(
+      InspectionResultController,
+    );
   });
 
   it('should be defined', () => {
