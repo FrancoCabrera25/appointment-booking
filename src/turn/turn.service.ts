@@ -22,26 +22,21 @@ export class TurnService {
     const newTurn = {
       date: new Date(date),
       hour,
-      userId,
       vehicleId: null,
     };
 
-    try {
-      //validar que no existe un turno para ese dia y horario
-      const isExistTurn = await this.checkIfTurnExists(date, hour);
-      if (isExistTurn)
-        throw new BadRequestException(
-          'Existe un turno registrado para ese dia y horario',
-        );
-
-      //validar que esa patente exista para el usuario sino la crea y validad que no tenga un turno existente para ese vehiculo
-      const newVehicle = await this.getVehicleOrThrowIfTurnExists(
-        patent,
-        userId,
+    //validar que no existe un turno para ese dia y horario
+    const isExistTurn = await this.checkIfTurnExists(date, hour);
+    if (isExistTurn) {
+      console.log('isExistTurn', isExistTurn);
+      throw new BadRequestException(
+        'Existe un turno registrado para ese dia y horario',
       );
-
-      newTurn.vehicleId = newVehicle._id.toString();
-
+    }
+    //validar que esa patente exista para el usuario sino la crea y validad que no tenga un turno existente para ese vehiculo
+    const newVehicle = await this.getVehicleOrThrowIfTurnExists(patent, userId);
+    newTurn.vehicleId = newVehicle._id.toString();
+    try {
       return await this.turnModel.create(newTurn);
     } catch (error: any) {}
   }
@@ -66,7 +61,6 @@ export class TurnService {
     // Verificar si ya existe un turno pendiente para el vehículo
     const existingPendingTurn =
       await this.findOneTurnUserIdAndVehicleIdAndStatus(
-        userId,
         existingVehicle._id.toString(),
         'PENDING',
       );
@@ -85,12 +79,11 @@ export class TurnService {
   }
 
   async findOneTurnUserIdAndVehicleIdAndStatus(
-    userId: string,
     vehicleId: string,
     status: string,
   ) {
     try {
-      return await this.turnModel.findOne({ userId, vehicleId, status });
+      return await this.turnModel.findOne({ vehicleId, status });
     } catch (error) {
       throw new InternalServerErrorException('Erro interno en el servidor');
     }

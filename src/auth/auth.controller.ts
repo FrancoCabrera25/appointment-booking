@@ -21,7 +21,7 @@ export class AuthController {
   }
   @Post('create-operator')
   createOperator(@Body() createAuthDto: CreateUserDto) {
-    return this.authService.create(createAuthDto, 'OPERATOR');
+    return this.authService.create(createAuthDto, 'MECHANIC');
   }
 
   @Post('login')

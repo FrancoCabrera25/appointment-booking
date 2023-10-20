@@ -1,5 +1,5 @@
 export enum ValidRoles {
   CLIENT = 'CLIENT',
-  OPERATOR = 'OPERATOR',
+  MECHANIC = 'MECHANIC',
   ADMIN = 'ADMIN',
 }

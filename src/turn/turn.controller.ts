@@ -31,7 +31,7 @@ export class TurnController {
   }
 
   @Get('getAllByDate/:date')
-  @Auth(ValidRoles.OPERATOR)
+  @Auth(ValidRoles.MECHANIC)
   findAllTurnByDate(@Param('date') date: string) {
     return this.turnService.findAllTurnByDate(date);
   }

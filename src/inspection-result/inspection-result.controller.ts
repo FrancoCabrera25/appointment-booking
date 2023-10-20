@@ -13,7 +13,7 @@ export class InspectionResultController {
   ) {}
 
   @Post()
-  @Auth(ValidRoles.OPERATOR)
+  @Auth(ValidRoles.MECHANIC)
   create(
     @Body() createInspectionResultDto: CreateInspectionResultDto,
     @GetUser() user: User,

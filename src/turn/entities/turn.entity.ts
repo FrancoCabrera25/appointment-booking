@@ -18,8 +18,8 @@ export class Turn extends Document {
   })
   status: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  userId: User;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  // userId: User;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Vehicle' })
   vehicleId: Vehicle;
