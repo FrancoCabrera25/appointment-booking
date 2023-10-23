@@ -66,7 +66,10 @@ export class AuthService {
 
     console.log('user', user);
     return {
-      ...user,
+      _id: user._id,
+      email: user.email,
+      role: user.role,
+      fullName: user.fullName,
       token: this.getJwtToken({ id: user._id.toString(), role: user.role }),
     };
   }

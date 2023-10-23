@@ -36,7 +36,7 @@ export class TurnController {
     return this.turnService.findAllTurnByDate(date);
   }
 
-  @Get('getByUser')
+  @Get('getTurnByUser')
   @Auth(ValidRoles.CLIENT)
   findAllTurnByUserId(@GetUser() user: User) {
     return this.turnService.findAllTurnByUserId(user.id);

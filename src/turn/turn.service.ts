@@ -117,10 +117,20 @@ export class TurnService {
     });
   }
   async findAllTurnByUserId(userId: string) {
-    return await this.turnModel.find({ userId }).populate({
-      path: 'vehicleId',
-      select: '_id, patent',
-    });
+    const vehicles: Vehicle[] =
+      await this.vehicleService.findAllVehicleByUserId(userId);
+
+    if (vehicles.length === 0) return [];
+
+    const vehicleIds = vehicles.map((vehicle) => vehicle._id);
+
+    return await this.turnModel
+      .find({ vehicleId: { $in: vehicleIds } }, { __v: 0 })
+      .sort({ date: -1 })
+      .populate({
+        path: 'vehicleId',
+        select: '_id, patent',
+      });
   }
 
   async updateTurnStatus(turnId: string, newStatus: string, session?: any) {
