@@ -16,9 +16,8 @@ export class InspectionResultController {
   @Auth(ValidRoles.MECHANIC)
   create(
     @Body() createInspectionResultDto: CreateInspectionResultDto,
-    @GetUser() user: User,
+    @GetUser() user,
   ) {
-    console.log('controller');
     return this.inspectionResultService.create(
       createInspectionResultDto,
       user.id,

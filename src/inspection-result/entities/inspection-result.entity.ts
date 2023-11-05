@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Schema as SchemaMongoose } from 'mongoose';
 import { User } from '../../auth/entities/user.entity';
-import { Turn } from 'src/turn/entities/turn.entity';
+import { Turn } from '../../turn/entities/turn.entity';
 
 @Schema()
 export class InspectionResult extends Document {

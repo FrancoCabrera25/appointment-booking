@@ -58,6 +58,10 @@ export class TurnService {
       userId,
     );
 
+    if (!existingVehicle) {
+      return this.vehicleService.create({ patent }, userId);
+    }
+
     // Verificar si ya existe un turno pendiente para el vehículo
     const existingPendingTurn =
       await this.findOneTurnUserIdAndVehicleIdAndStatus(
@@ -71,11 +75,7 @@ export class TurnService {
       );
     }
 
-    if (existingVehicle) {
-      return existingVehicle;
-    }
-
-    return this.vehicleService.create({ patent }, userId);
+    return existingVehicle;
   }
 
   async findOneTurnUserIdAndVehicleIdAndStatus(
@@ -133,7 +133,7 @@ export class TurnService {
       });
   }
 
-  async updateTurnStatus(turnId: string, newStatus: string, session?: any) {
+  async updateTurnStatus(turnId: string, newStatus: string) {
     // Realiza la actualización del estado del turno aquí
     const updatedTurn = await this.turnModel.findByIdAndUpdate(
       turnId,

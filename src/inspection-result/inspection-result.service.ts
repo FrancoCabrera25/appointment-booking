@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInspectionResultDto } from './dto/create-inspection-result.dto';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { InspectionResult } from './entities/inspection-result.entity';
-import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { inspectionCalculator } from './utils/inspection-calculator';
 import { TurnService } from '../turn/turn.service';
 
@@ -11,7 +11,6 @@ export class InspectionResultService {
   constructor(
     @InjectModel(InspectionResult.name)
     private readonly inspectionResultModel: Model<InspectionResult>,
-    @InjectConnection() private readonly connection: mongoose.Connection,
     private readonly turnService: TurnService,
   ) {}
 
@@ -19,28 +18,37 @@ export class InspectionResultService {
     createInspectionResultDto: CreateInspectionResultDto,
     userId: string,
   ) {
-    const { details, turnId } = createInspectionResultDto;
+    const { details: detailsDto, turnId } = createInspectionResultDto;
 
-    const inspectionQualification = inspectionCalculator(details);
-    // const session = await this.connection.startSession();
-    // session.startTransaction();
+    const inspectionQualification = inspectionCalculator(detailsDto);
 
     try {
       console.log('prev');
       const inspectionResult = await this.inspectionResultModel.create({
         qualification: inspectionQualification.qualification,
-        details,
+        details: detailsDto,
         userId,
         turnId,
         status: 'DONE',
         inspectionStatus: inspectionQualification.status.toString(),
       });
       console.log('add');
+
       await this.turnService.updateTurnStatus(turnId, 'FINISHED');
 
-      return inspectionResult;
+      const { qualification, status, _id, inspectionStatus } =
+        inspectionResult.toObject();
+
+      return {
+        qualification,
+        status,
+        _id,
+        inspectionStatus,
+        details: [...detailsDto],
+        turnId,
+        userId,
+      };
     } catch (error) {
-      //  await session.abortTransaction();
       console.log('error', error);
     }
   }

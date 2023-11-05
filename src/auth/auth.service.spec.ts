@@ -6,7 +6,6 @@ import { JwtService } from '@nestjs/jwt';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
-import { error } from 'console';
 describe('AuthService', () => {
   let authService: AuthService;
 

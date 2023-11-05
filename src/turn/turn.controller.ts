@@ -20,7 +20,7 @@ export class TurnController {
 
   @Post()
   @Auth(ValidRoles.CLIENT)
-  create(@Body() createTurnDto: CreateTurnDto, @GetUser() user: User) {
+  create(@Body() createTurnDto: CreateTurnDto, @GetUser() user: any) {
     return this.turnService.create(createTurnDto, user.id);
   }
 
