@@ -18,7 +18,6 @@ export class VehicleService {
 
       return vehicle;
     } catch (error: any) {
-      console.log('error', error);
       throw new BadRequestException('No se pudo crear el vehiculo');
     }
   }
