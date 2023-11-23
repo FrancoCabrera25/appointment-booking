@@ -12,13 +12,9 @@ export function getHourAvailableForDay(reservedTurn: Turn[] = []) {
       const isAvailable = !reservedTurn.find(
         (turn) => turn.hour === hourMinute,
       );
-      availableTurn.push({
-        hourMinute,
-        isAvailable,
-      });
-      // if (!reservedTurn.find((turn) => turn.hour === hourMinute)) {
-      //   availableTurn.push(hourMinute);
-      // }
+      if (isAvailable) {
+        availableTurn.push(hourMinute);
+      }
     }
   }
   return availableTurn;

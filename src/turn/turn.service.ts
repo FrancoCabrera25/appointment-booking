@@ -28,7 +28,6 @@ export class TurnService {
     //validar que no existe un turno para ese dia y horario
     const isExistTurn = await this.checkIfTurnExists(date, hour);
     if (isExistTurn) {
-      console.log('isExistTurn', isExistTurn);
       throw new BadRequestException(
         'Existe un turno registrado para ese dia y horario',
       );
